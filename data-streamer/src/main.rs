@@ -45,8 +45,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 async fn handle_client(mut socket: TcpStream, mut rx: Receiver<weather::WeatherResponse>) {
     while let Ok(weather) = rx.recv().await {
-        let bytes = bincode::serialize(&weather).expect("Should be able to serialize struct");
-        if let Err(e) = socket.write_all(&bytes) {
+        let serialized =
+            serde_json::to_string(&weather).expect("Should be able to serialize struct");
+        if let Err(e) = socket.write_all(serialized.as_bytes()) {
             eprintln!("Writing to socket failed: {e:?}");
             break;
         }
