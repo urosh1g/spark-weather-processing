@@ -32,9 +32,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     });
 
     loop {
-        let (socket, _) = listener.accept()?;
-        let receiver = tx.subscribe();
-        tokio::spawn(handle_client(socket, receiver));
+        match listener.accept() {
+            Ok((socket, _)) => {
+                println!("New client accepted, spawning a handler");
+                let rx = tx.subscribe();
+                tokio::spawn(handle_client(socket, rx));
+            }
+            Err(e) => eprintln!("Failed to accept a new connection: {e:?}"),
+        }
     }
 }
 
@@ -43,7 +48,6 @@ async fn handle_client(mut socket: TcpStream, mut rx: Receiver<weather::WeatherR
         let bytes = bincode::serialize(&weather).expect("Should be able to serialize struct");
         if let Err(e) = socket.write_all(&bytes) {
             eprintln!("Writing to socket failed: {e:?}");
-            drop(rx);
             break;
         }
     }
