@@ -16,7 +16,7 @@ pub async fn get_weather_data(
     Ok(response)
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct WeatherResponse {
     coord: Coord,
     weather: Vec<Weather>,
@@ -34,13 +34,13 @@ pub struct WeatherResponse {
     cod: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Coord {
     lon: f32,
     lat: f32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Weather {
     id: i32,
     main: String,
@@ -48,14 +48,14 @@ pub struct Weather {
     icon: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Wind {
     speed: f32,
     deg: i32,
     gust: Option<f32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Main {
     temp: f32,
     feels_like: f32,
@@ -67,18 +67,18 @@ pub struct Main {
     grnd_level: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Rain {
     #[serde(rename = "1h")]
     last_hour: f32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Clouds {
     all: i32,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Sys {
     #[serde(rename = "type")]
     ty: Option<i32>,
