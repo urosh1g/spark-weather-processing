@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import from_json, col
+from pyspark.sql.functions import from_json, col, avg, window, when
 from pyspark.sql.types import (
     StructType,
     StructField,
@@ -128,13 +128,13 @@ weather_data_expanded = weather_data.selectExpr(
     "weather.wind.speed as wind_speed",
     "weather.sys.sunrise as sunrise",
     "weather.sys.sunset as sunset",
-    "weather.dt as timestamp",
+    "CAST(weather.dt AS TIMESTAMP) as timestamp",
     "weather.name as city",
 )
 
 daily_average = (
     weather_data_expanded.withWatermark("timestamp", "1 day")
-    .groupBy(window(col("timestamp")), "1 day")
+    .groupBy(window(col("timestamp"), "1 day"))
     .agg(
         avg("temp").alias("average_temp"),
         avg("pressure").alias("average_pressure"),
@@ -150,10 +150,10 @@ alerts = (
         col("timestamp"),
         col("temp"),
         col("wind_speed"),
-        when(col("temp") > 10, "Heatwave").alias("alert"),
-        when(col("wind_speed") > 1, "Storm").alias("alert"),
+        when(col("temp") > 40, "Heatwave").alias("heat_alert"),
+        when(col("wind_speed") > 20, "Storm").alias("storm_alert"),
     )
-    .filter(col("alert").isNotNull())
+    .filter(col("heat_alert").isNotNull() | col("storm_alert").isNotNull())
 )
 
 query = (
