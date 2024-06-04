@@ -92,12 +92,14 @@ schema = StructType(
     ]
 )
 
-output_path = "./output/"
-checkpoint_dir = "./checkpoint/"
+output_path = "./output/base"
+checkpoint_dir = "./checkpoint/base"
 
+average_output_path = "./output/average"
+average_checkpoint_dir = "./checkpoint/average"
 
-def write_to_file(batch, id):
-    batch.write.mode("append").json(output_file)
+alert_output_path = "./output/alert"
+alert_checkpoint_dir = "./checkpoint/alert"
 
 
 spark = SparkSession.builder.appName("WeatherDataProcessing").getOrCreate()
@@ -130,6 +132,29 @@ weather_data_expanded = weather_data.selectExpr(
     "weather.name as city",
 )
 
+daily_average = (
+    weather_data_expanded.withWatermark("timestamp", "1 day")
+    .groupBy(window(col("timestamp")), "1 day")
+    .agg(
+        avg("temp").alias("average_temp"),
+        avg("pressure").alias("average_pressure"),
+        avg("humidity").alias("average_humidity"),
+        avg("wind_speed").alias("average_wind_speed"),
+    )
+)
+
+alerts = (
+    weather_data_expanded.withWatermark("timestamp", "1 day")
+    .select(
+        col("city"),
+        col("timestamp"),
+        col("temp"),
+        col("wind_speed"),
+        when(col("temp") > 10, "Heatwave").alias("alert"),
+        when(col("wind_speed") > 1, "Storm").alias("alert"),
+    )
+    .filter(col("alert").isNotNull())
+)
 
 query = (
     weather_data_expanded.writeStream.outputMode("append")
@@ -139,4 +164,22 @@ query = (
     .start()
 )
 
+alerts_query = (
+    alerts.writeStream.outputMode("append")
+    .format("json")
+    .option("path", alert_output_path)
+    .option("checkpointLocation", alert_checkpoint_dir)
+    .start()
+)
+
+daily_average_query = (
+    daily_average.writeStream.outputMode("append")
+    .format("json")
+    .option("path", average_output_path)
+    .option("checkpointLocation", average_checkpoint_dir)
+    .start()
+)
+
 query.awaitTermination()
+daily_average_query.awaitTermination()
+alerts_query.awaitTermination()
