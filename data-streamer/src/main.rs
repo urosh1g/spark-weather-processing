@@ -23,11 +23,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         loop {
             match weather::get_weather_data(&config).await {
                 Ok(response) => {
+                    println!("New data arrived");
                     let _ = api_tx.send(response);
                 }
                 Err(err) => eprintln!("API call failed: {err:?}"),
             };
-            tokio::time::sleep(Duration::from_secs(60)).await;
+            tokio::time::sleep(Duration::from_secs(10)).await;
         }
     });
 
@@ -47,9 +48,11 @@ async fn handle_client(mut socket: TcpStream, mut rx: Receiver<weather::WeatherR
     while let Ok(weather) = rx.recv().await {
         let serialized =
             serde_json::to_string(&weather).expect("Should be able to serialize struct");
-        if let Err(e) = socket.write_all(serialized.as_bytes()) {
+        let message = format!("{}\n", serialized);
+        if let Err(e) = socket.write_all(message.as_bytes()) {
             eprintln!("Writing to socket failed: {e:?}");
             break;
         }
+        socket.flush().expect("Should be able to flush socket");
     }
 }

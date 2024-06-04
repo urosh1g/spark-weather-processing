@@ -11,3 +11,5 @@ share
 pyvenv.cfg
 .venv
 pip-selfcheck.json
+output
+checkpoint
