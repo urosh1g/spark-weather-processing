@@ -1,7 +1,7 @@
 import json
 import glob
 
-file_types = ['base', 'alert', 'average']
+file_types = ["base", "alert", "average"]
 
 for type_file in file_types:
     result = []
@@ -14,8 +14,14 @@ for type_file in file_types:
                     continue
                 
                 try:
-                    file_as_json = json.loads(content)
-                    result.append(file_as_json)
+                    content = json.loads(content)
+
+                    if type_file == "average":
+                        content["timestamp_start"] = content["window"]["start"]
+                        content["timestamp_end"] = content["window"]["end"]
+                        del content["window"]
+
+                    result.append(content)
                 except json.JSONDecodeError as e:
                     print(f"Error decoding JSON from file: {f}")
                     print(f"Content: {content}")
