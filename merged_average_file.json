@@ -1,0 +1,82 @@
+[
+    {
+        "average_temp": 30.393728126913814,
+        "average_pressure": 1011.0,
+        "average_humidity": 42.0,
+        "average_wind_speed": 1.323898270978766,
+        "timestamp_start": "2024-06-16T17:00:00.000+02:00",
+        "timestamp_end": "2024-06-16T18:00:00.000+02:00"
+    },
+    {
+        "average_temp": 27.82296230174877,
+        "average_pressure": 1013.0,
+        "average_humidity": 44.0,
+        "average_wind_speed": 1.120370343879417,
+        "timestamp_start": "2024-06-16T12:00:00.000+02:00",
+        "timestamp_end": "2024-06-16T13:00:00.000+02:00"
+    },
+    {
+        "average_temp": 29.969999313354492,
+        "average_pressure": 1012.0,
+        "average_humidity": 42.0,
+        "average_wind_speed": 1.378947333285683,
+        "timestamp_start": "2024-06-16T15:00:00.000+02:00",
+        "timestamp_end": "2024-06-16T16:00:00.000+02:00"
+    },
+    {
+        "average_temp": 28.90475341921947,
+        "average_pressure": 1012.344262295082,
+        "average_humidity": 41.85245901639344,
+        "average_wind_speed": 0.8983606354134982,
+        "timestamp_start": "2024-06-16T13:00:00.000+02:00",
+        "timestamp_end": "2024-06-16T14:00:00.000+02:00"
+    },
+    {
+        "average_temp": 29.293076236431414,
+        "average_pressure": 1011.0,
+        "average_humidity": 42.92307692307692,
+        "average_wind_speed": 1.7158461093902588,
+        "timestamp_start": "2024-06-16T19:00:00.000+02:00",
+        "timestamp_end": "2024-06-16T20:00:00.000+02:00"
+    },
+    {
+        "average_temp": 29.969999313354492,
+        "average_pressure": 1011.0,
+        "average_humidity": 42.0,
+        "average_wind_speed": 2.3827272111719306,
+        "timestamp_start": "2024-06-16T18:00:00.000+02:00",
+        "timestamp_end": "2024-06-16T19:00:00.000+02:00"
+    },
+    {
+        "average_temp": 26.642726586081764,
+        "average_pressure": 1011.8727272727273,
+        "average_humidity": 54.89090909090909,
+        "average_wind_speed": 1.4750908721577038,
+        "timestamp_start": "2024-06-16T20:00:00.000+02:00",
+        "timestamp_end": "2024-06-16T21:00:00.000+02:00"
+    },
+    {
+        "average_temp": 24.176348519703698,
+        "average_pressure": 1012.0,
+        "average_humidity": 63.38095238095238,
+        "average_wind_speed": 1.7215872567797463,
+        "timestamp_start": "2024-06-16T21:00:00.000+02:00",
+        "timestamp_end": "2024-06-16T22:00:00.000+02:00"
+    },
+    {
+        "average_temp": 30.39857074192592,
+        "average_pressure": 1011.2222222222222,
+        "average_humidity": 41.142857142857146,
+        "average_wind_speed": 0.9852380714719258,
+        "timestamp_start": "2024-06-16T16:00:00.000+02:00",
+        "timestamp_end": "2024-06-16T17:00:00.000+02:00"
+    },
+    {
+        "average_temp": 29.969999313354492,
+        "average_pressure": 1012.0,
+        "average_humidity": 41.333333333333336,
+        "average_wind_speed": 1.3111110793219671,
+        "timestamp_start": "2024-06-16T14:00:00.000+02:00",
+        "timestamp_end": "2024-06-16T15:00:00.000+02:00"
+    }
+]
